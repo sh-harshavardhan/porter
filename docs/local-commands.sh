@@ -1,2 +1,0 @@
-# poetry
-$(poetry env activate)

@@ -3,7 +3,7 @@ name = "porter-py"
 version = "0.0.1"
 description = ""
 homepage = 'https://github.com/sh-harshavardhan/porter.git'
-documentation = 'https://github.com/sh-harshavardhan/porter.git'
+documentation = 'https://porter-py.readthedocs.io/en/latest/'
 authors = [ "ekharshavardhan851@gmail.com"]
 readme = "README.md"
 
@@ -56,6 +56,7 @@ ignore_missing_imports = true
 version = '0.0.1'
 version_files = ['pyproject.toml:^version']
 tag_format = "v$version"
+changelog_file = "docs/changelog.md"
 
 [tool.pydocstyle]
 convention = 'google'

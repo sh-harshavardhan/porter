@@ -12,7 +12,7 @@ tasks:
   cmds:
     desc: Useful command
     cmds:
-      - cat docs/local-commands.sh
+      - echo '$(poetry env activate)'
 
   build:
     desc: Build the application

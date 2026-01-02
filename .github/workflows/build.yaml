@@ -1,8 +1,11 @@
 ---
 name: Build the application
 on:
+  workflow_call:
+
   pull_request_review:
     types: [submitted]
+
   pull_request:
     types: [opened, reopened, edited, synchronize]
 

@@ -1,7 +1,7 @@
 site_name: Porter
 theme:
   name: readthedocs
-  highlightjs: true
+  highlights: true
 plugins:
   - search
   - mkdocstrings:
@@ -9,4 +9,4 @@ plugins:
         # See: https://mkdocstrings.github.io/python/usage/
         python:
           options:
-            docstring_style: sphinx
+            docstring_style: google

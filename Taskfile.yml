@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  default:
+    desc: Print a greeting message
+    cmds:
+      - echo "Hello, world!"
+    silent: true
+
+  build:
+    desc: Build the application
+    cmds:
+      - echo "Build the application"
+      - poetry build --clean
+      - rm -r -f dist
+    silent: true
+
+  publish:
+    desc: Publish the application to PYPI
+    cmds:
+      - echo "Pushing the changes to PYPI"
+      - poetry publish --build --username $PYPI_USERNAME --password $PYPI_PASSWORD
+      - rm -r -f dist
+    silent: true
+
+  publish-local:
+    desc: Publish the application to PYPI
+    dotenv: [ '.env/pypi.env' ]
+    cmds:
+      - echo "Pushing the changes to PYPI"
+      - poetry publish --build --username $PYPI_USERNAME --password $PYPI_PASSWORD
+      - rm -r -f dist
+    silent: true

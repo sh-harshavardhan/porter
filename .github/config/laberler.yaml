@@ -1,0 +1,31 @@
+---
+# https://github.com/marketplace/actions/labeler
+
+source:
+  - core/src/*
+
+tests:
+  - core/tests/*
+
+project:
+  - pyproject.toml
+  - poetry.lock
+  - LICENSE
+  - .gitignore
+
+cicd:
+  - .github/*
+
+docs:
+  - docs/*
+  - README.md
+  - CHANGELOG.md
+
+ui:
+  - ui/*
+
+docker:
+  - docker/*
+
+alembic:
+  - alembic/*

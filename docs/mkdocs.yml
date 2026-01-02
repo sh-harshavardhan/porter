@@ -1,4 +1,8 @@
 site_name: Porter
+
+# as the mkdocs.yml is in the docs/ subfolder, we need to set the docs_dir to '.'
+docs_dir: '.'
+
 theme:
   name: readthedocs
   highlights: true

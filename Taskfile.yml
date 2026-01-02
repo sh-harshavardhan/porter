@@ -21,7 +21,7 @@ tasks:
     desc: Publish the application to PYPI
     cmds:
       - echo "Pushing the changes to PYPI"
-      - poetry publish --build --username $PYPI_USERNAME --password $PYPI_PASSWORD
+      - poetry publish --build --username $PYPI_USERNAME --password $PYPI_PASSWORD --skip-existing
       - rm -r -f dist
     silent: true
 
@@ -30,6 +30,6 @@ tasks:
     dotenv: [ '.env/pypi.env' ]
     cmds:
       - echo "Pushing the changes to PYPI"
-      - poetry publish --build --username $PYPI_USERNAME --password $PYPI_PASSWORD
+      - poetry publish --build --username $PYPI_USERNAME --password $PYPI_PASSWORD --skip-existing
       - rm -r -f dist
     silent: true

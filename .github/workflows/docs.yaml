@@ -9,9 +9,8 @@ on:
 
 
 jobs:
-  runs-on: ubuntu-latest
-
   docs:
+    runs-on: ubuntu-latest
     steps:
       - name: Generate docs
         run: echo "Generating docs"

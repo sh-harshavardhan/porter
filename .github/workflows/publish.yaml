@@ -13,9 +13,8 @@ concurrency:
 
 
 jobs:
-  runs-on: ubuntu-latest
-
   publish:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

@@ -1,7 +1,7 @@
 ---
 name: Build the application
 on:
-  workflow_call:
+  workflow_dispatch:
 
   pull_request_review:
     types: [submitted]

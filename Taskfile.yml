@@ -9,6 +9,11 @@ tasks:
       - echo "Hello, world!"
     silent: true
 
+  cmds:
+    desc: Useful command
+    cmds:
+      - cat docs/local-commands.sh
+
   build:
     desc: Build the application
     cmds:
@@ -25,7 +30,7 @@ tasks:
       - rm -r -f dist
     silent: true
 
-  publish-local:
+  publish-from-local:
     desc: Publish the application to PYPI
     dotenv: [ '.env/pypi.env' ]
     cmds:

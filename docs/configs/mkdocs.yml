@@ -1,0 +1,17 @@
+site_name: Porter
+
+# as the mkdocs.yml is in the docs/configs/ subfolder, we need to set the docs_dir to '../'
+docs_dir: '../'
+site_dir: '../../site'
+
+theme:
+  name: readthedocs
+  highlights: true
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        # See: https://mkdocstrings.github.io/python/usage/
+        python:
+          options:
+            docstring_style: google

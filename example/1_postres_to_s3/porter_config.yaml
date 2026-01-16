@@ -1,0 +1,11 @@
+name: customers_postgres_to_s3
+description: Export customers table from Postgres to S3 in CSV format
+source:
+  type: postgres
+  config:
+    host: your_postgres_host
+    port: 5432
+    database: your_database
+    user: your_username
+    password: your_password
+    query: SELECT * FROM customers

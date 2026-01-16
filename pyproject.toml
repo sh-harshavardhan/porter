@@ -7,7 +7,7 @@ documentation = 'https://porter-py.readthedocs.io/en/latest/'
 authors = [ "ekharshavardhan851@gmail.com"]
 readme = "README.md"
 
-packages = [{ include = 'src', from = 'core'}]
+packages = [{ include = 'src', from = 'app'}]
 
 [tool.poetry.dependencies]
 python = ">=3.13"
@@ -22,6 +22,7 @@ jinjasql = "^0.1.8"
 dotenv = "^0.9.9"
 rich = "^14.2.0"
 pyaml = "^25.7.0"
+art = "^6.5"
 
 [tool.poetry.group.dev.dependencies]
 pytest-cov = "^7.0.0"
@@ -42,7 +43,7 @@ openlineage-python = "^1.41.0"
 kubernetes = "^34.1.0"
 
 [tool.poetry.scripts]
-porter = 'cli.cli:app'
+porter = 'src.cli.cli:app'
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

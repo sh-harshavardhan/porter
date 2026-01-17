@@ -1,0 +1,29 @@
+---
+default_stages: [pre-commit, pre-push]
+default_language_version:
+    python: python3
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # frozen: v6.0.0
+      hooks:
+          - id: no-commit-to-branch
+            args:
+                - --branch=main
+          - id: check-yaml
+          - id: check-json
+          - id: end-of-file-fixer
+          - id: trailing-whitespace
+            exclude: ^(docs.*|README\.md)$
+          - id: check-added-large-files
+
+    - repo: https://github.com/astral-sh/ruff-pre-commit
+      rev: 9b1e9a33f1b33f6ecc2fdbb8d7cc894e951106e4  # frozen: v0.14.13
+      hooks:
+        - id: ruff
+        - id: ruff-format
+
+    - repo: https://github.com/adrienverge/yamllint
+      rev: cba56bcde1fdd01c1deb3f945e69764c291a6530  # frozen: v1.38.0
+      hooks:
+          - id: yamllint
+            args: [--config-file=.github/config/yamlint.yaml, --no-warnings]

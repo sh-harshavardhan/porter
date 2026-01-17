@@ -1,9 +1,9 @@
-### Local setup on mac
+## Local setup on mac
 
 
 - Install CLI packages
 ```shell
-# Install BREW if you dont already have it. 
+# Install BREW if you dont already have it.
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Install required packages
@@ -24,3 +24,9 @@ cz bump --increment PATH
 cz bump --increment PATH --prerelease rc
 cz changelog --incremental --unreleased-version "v0.0.1"
 ```
+
+
+## Documentation for Porter-Py:
+
+- https://porter-py.readthedocs.io/en/latest/
+- https://app.readthedocs.org/projects/porter-py/

@@ -1,27 +1,38 @@
+"""Common enumerations used across the application."""
+
+__all__ = ["Engine", "Mode", "ExceptionType", "Status"]
+
 from enum import Enum
 
 
 class Engine(Enum):
-    duckdb = 'duckdb'
-    spark = 'spark'
-    pandas = 'pandas'
+    """Supported data processing engines."""
+
+    duckdb = "duckdb"
+    spark = "spark"
+    pandas = "pandas"
 
 
 class Mode(Enum):
-    local = 'local'
-    kubernetes = 'kubernetes'
+    """Execution modes for the application."""
+
+    local = "local"
+    kubernetes = "kubernetes"
 
 
 class ExceptionType(Enum):
-    ignore = 'ignore'
-    warning = 'warning'
-    error = 'error'
+    """Severity levels for exceptions during validations."""
+
+    ignore = "ignore"
+    warning = "warning"
+    error = "error"
 
 
 class Status(Enum):
-    success = 'success'
-    failure = 'failure'
-    in_progress = 'in_progress'
-    retry = 'retry'
-    skipped = 'skipped'
+    """Status of operations or tasks."""
 
+    success = "success"
+    failure = "failure"
+    in_progress = "in_progress"
+    retry = "retry"
+    skipped = "skipped"

@@ -1,0 +1,1 @@
+"""Redshift database source package."""

@@ -1,12 +1,21 @@
+"""Enums related to Targets."""
+
+__all__ = ["TargetType", "LoadMode"]
+
+
 from enum import Enum
 
 
 class TargetType(Enum):
-    file = 'file'
-    database = 'database'
+    """Supported target types for data loading."""
+
+    file = "file"
+    database = "database"
 
 
 class LoadMode(Enum):
-    append = 'append'
-    overwrite = 'overwrite'
-    upsert = 'upsert'
+    """Modes for loading data into targets."""
+
+    append = "append"
+    overwrite = "overwrite"
+    upsert = "upsert"

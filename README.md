@@ -13,11 +13,10 @@ pip install poetry-py
 pip install porter-py[dev,metadata,aws,govern,kube]
 
 
-### POETRY 
+### POETRY
 # Install with ALl dependencies
 poetry add porter-py
 
 # Install on specific dependencies
 poetry add 'porter-py[dev,metadata,aws,govern,kube]'
 ```
-

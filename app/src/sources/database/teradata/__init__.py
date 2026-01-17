@@ -1,0 +1,1 @@
+"""Teradata database source package."""

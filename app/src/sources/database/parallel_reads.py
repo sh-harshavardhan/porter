@@ -1,10 +1,16 @@
+"""Module to run functions in parallel processes with retry logic."""
+
+__all__ = ["run_in_parallel", "log_process_details"]
+
+
 import multiprocessing
-from src.utilities.common.base_logger import log
+from src.common.base_logger import log
 
 MAX_RETRIES = 3
 
 
 def log_process_details(arg, retry_cnt):
+    """Logs the process details including parent and child process IDs, argument, and retry count."""
     import os
 
     print(
@@ -19,6 +25,7 @@ def log_process_details(arg, retry_cnt):
 
 
 def run_in_parallel(args_list, func):
+    """Runs the given function in parallel processes for each argument in args_list."""
     retry_state = {arg: 0 for arg in args_list}
     args_to_run = set(args_list)
 

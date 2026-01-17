@@ -1,3 +1,7 @@
+"""This is the Entry point for the application CLI, this CLI exposes all the submodules CLIs."""
+
+__all__ = ["app"]
+
 import typer
 
 from src.transformations.cli import app as transformations_app
@@ -10,19 +14,7 @@ app.add_typer(sources_app, name="source")
 app.add_typer(governance_app, name="govern")
 
 
-# @app.command()
-# def run_parallel():
-#     run_in_parallel(4, func1)
-
-
 @app.callback()
 def default_app_args():
-    """
-    A simple CLI application with greeting commands.
-    """
+    """A simple CLI application with greeting commands."""
     pass
-
-
-# if __name__ == "__main__":
-#     print("Starting the CLI application...")
-#     app()  # This will invoke the Typer app

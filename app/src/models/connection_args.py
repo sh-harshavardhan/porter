@@ -1,3 +1,8 @@
+"""Model definition for Connection Args, which defines the connection parameters for various sources and targets."""
+
+__all__ = ["ConnectionArgs"]
+
+
 from typing import Optional, Dict, ClassVar, Any
 from abc import ABC
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -5,6 +10,8 @@ from pydantic import model_validator
 
 
 class ConnectionArgs(BaseSettings, ABC):
+    """Model representing connection arguments for data sources and targets."""
+
     HOSTNAME: Optional[str] = None
     PORT: Optional[int] = None
     DATABASE: Optional[str] = None
@@ -28,7 +35,8 @@ class ConnectionArgs(BaseSettings, ABC):
         )
 
     @model_validator(mode="after")
-    def validate_mandatory_args(self):
+    def validate_args(self):
+        """Validate that all mandatory arguments are present."""
         if self.args is None:
             self.args = {}
         missing_args = [arg for arg in self.MANDATORY_ARGS if arg not in self.args]

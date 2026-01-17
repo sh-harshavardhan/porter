@@ -15,3 +15,31 @@ plugins:
         python:
           options:
             docstring_style: google
+
+
+nav:
+  - Home: index.md
+  - High Level Concepts:
+    - Core Concepts: core-concepts.md
+    - Pipeline: porter-pipeline.md
+    - Engines: porter-engines.md
+    - Execution Modes: execution-modes.md
+    - Governance:
+        - Auditing: governance/auditing.md
+        - Notifications: governance/notifications.md
+        - Lineage: governance/lineage.md
+  - Configuration Models:
+    - Sources: models/sources.md
+    - Targets: models/targets.md
+    - Datasets:
+        - File Dataset: models/datasets/file-dataset.md
+        - Table Dataset: models/datasets/table-dataset.md
+        - API Dataset: models/datasets/api-dataset.md
+        - Stream Dataset: models/datasets/stream-dataset.md
+    - Transformations: models/transformations.md
+    - Validations: models/validations.md
+  - CLI Reference: cli-reference.md
+  - About:
+    - License: about/license.md
+    - Change Log: about/changelog.md
+    - Contributing: about/contributing.md

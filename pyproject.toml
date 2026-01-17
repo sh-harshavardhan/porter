@@ -2,22 +2,22 @@
 name = "porter-py"
 version = "0.0.1"
 description = ""
-homepage = 'https://github.com/sh-harshavardhan/porter.git'
-documentation = 'https://porter-py.readthedocs.io/en/latest/'
+homepage = "https://github.com/sh-harshavardhan/porter.git"
+documentation = "https://porter-py.readthedocs.io/en/latest/"
 authors = [ "ekharshavardhan851@gmail.com"]
 readme = "README.md"
 
-packages = [{ include = 'src', from = 'app'}]
+packages = [{ include = "src", from = "app"}]
 
 [tool.poetry.dependencies]
-python = ">=3.13"
-requests = '>=2.32.5,<3.0.0'
-pydantic = '>=2.12.5,<3.0.0'
-pydantic-settings='>=2.12.0,<3.0.0'
+python = ">=3.13,<4.0.0"
+requests = ">=2.32.5,<3.0.0"
+pydantic = ">=2.12.5,<3.0.0"
+pydantic-settings=">=2.12.0,<3.0.0"
 typer = "^0.21.0"
 duckdb = "^1.4.3"
 pyarrow = "^22.0.0"
-jinja2 = '>=3.1.6,<4.0.0'
+jinja2 = ">=3.1.6,<4.0.0"
 jinjasql = "^0.1.8"
 dotenv = "^0.9.9"
 rich = "^14.2.0"
@@ -28,13 +28,14 @@ art = "^6.5"
 pytest-cov = "^7.0.0"
 tabulate = "^0.9.0"
 pre-commit = "^4.5.1"
+openapi-core = "^0.22.0"
 
 [tool.poetry.group.metadata.dependencies]
 alembic = "^1.17.2"
 sqlalchemy = "^2.0.45"
 
 [tool.poetry.group.aws.dependencies]
-boto3 = '>=1.42.19,<2.0.0'
+boto3 = ">=1.42.19,<2.0.0"
 
 [tool.poetry.group.govern.dependencies]
 sqllineage = "^1.5.6"
@@ -44,34 +45,76 @@ openlineage-python = "^1.41.0"
 kubernetes = "^34.1.0"
 
 [tool.poetry.scripts]
-porter = 'src.cli.cli:app'
+porter = "src.cli.cli:app"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.mypy]
-python_version = '3.13'
+python_version = "3.13"
 ignore_missing_imports = true
 
 [tool.commitizen]
-version = '0.0.1'
-version_files = ['pyproject.toml:^version']
+version = "0.0.1"
+version_files = ["pyproject.toml:^version"]
 tag_format = "v$version"
 changelog_file = "docs/changelog.md"
 
-[tool.pydocstyle]
-convention = 'google'
-add_ignore = [
-    'D105',
-    'D106'
-]
 
 [tool.pytest.ini_options]
-minversion = '6.0'
-testpaths = ['core.tests', ]
+minversion = "6.0"
+testpaths = ["core.tests", ]
 addopts = [
     "--doctest-modules",
     "--cov-failure-under=80",
     "--cov=src"
 ]
+
+
+[tool.ruff]
+
+fix = true
+target-version = "py38"
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".pyenv",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
+
+include = [
+    "pyproject.toml",
+#    "app/**/*.py" # will disable ruff for all files in app directory once implemented
+    "app/src/models/**/*.py"
+]
+
+
+line-length = 88
+indent-width = 4
+
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint]
+extend-select = [
+  "UP",  # pyupgrade
+  "D",   # pydocstyle
+]
+
+ignore = ["D415", "D205"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

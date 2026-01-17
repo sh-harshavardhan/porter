@@ -1,3 +1,8 @@
+"""Model related to Porter Config, which defines the overall configuration"""
+
+__all__ = ["PorterConfig"]
+
+
 from typing import Dict, Optional, Union, List
 
 from pydantic import BaseModel, Field, field_validator
@@ -10,9 +15,7 @@ from src.enums.secrets import SecretSource
 
 
 class PorterConfig(BaseModel):
-    """
-    Model representing the configuration for Porter jobs.
-    """
+    """Model representing the configuration for Porter jobs."""
 
     name: str = Field(
         ...,
@@ -93,6 +96,7 @@ class PorterConfig(BaseModel):
     @field_validator("source", mode="before")
     @classmethod
     def validate_source(cls, value):
+        """Validate and convert the source field to a Source model if it's provided as a dictionary."""
         if isinstance(value, dict):
             return Source.model_validate(**value)
         return value
@@ -100,6 +104,7 @@ class PorterConfig(BaseModel):
     @field_validator("targets", mode="before")
     @classmethod
     def validate_targets(cls, value):
+        """Validate and convert the targets field to a list of Target models if provided as a list of dictionaries."""
         if isinstance(value[0], dict):
             return [Target.model_validate(**each_target) for each_target in value]
         return value

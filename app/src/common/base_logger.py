@@ -1,7 +1,14 @@
+"""Base logger configuration for the application."""
+
+__all__ = ["BaseLogger", "log"]
+
+
 import logging
 
 
 class BaseLogger:
+    """Base logger configuration class."""
+
     def __init__(
         self,
         name: str = __name__,
@@ -9,6 +16,7 @@ class BaseLogger:
         log_format: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         disable_project_name_print: bool = True,
     ):
+        """Initializes the BaseLogger with the specified configuration."""
         self.logger = logging.getLogger(name)
         self.logger.setLevel(log_level)
 
@@ -31,6 +39,7 @@ class BaseLogger:
             print(text2art("PORTER", font="bigchief"))
 
     def get_logger(self) -> logging.Logger:
+        """Returns the configured logger instance."""
         return self.logger
 
 

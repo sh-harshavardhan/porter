@@ -1,3 +1,8 @@
+"""Model definitions for data sources."""
+
+__all__ = ["Source"]
+
+
 from abc import ABC
 from typing import Optional, Dict, Any, ClassVar, List
 from pydantic import BaseModel, Field, model_validator
@@ -5,8 +10,7 @@ from src.enums.secrets import SecretSource
 
 
 class Source(BaseModel, ABC):
-    """
-    Base model for different types of data sources.
+    """Base model for different types of data sources.
     All sources should accept this config, any additional parameters can be passed via the `args` field.
     """
 
@@ -33,7 +37,8 @@ class Source(BaseModel, ABC):
     MANDATORY_ARGS: ClassVar[Any] = []
 
     @model_validator(mode="after")
-    def validate_mandatory_args(self):
+    def validate_args(self):
+        """Validate that all mandatory args are present in the args dictionary."""
         if self.args is None:
             self.args = {}
         missing_args = [arg for arg in self.MANDATORY_ARGS if arg not in self.args]

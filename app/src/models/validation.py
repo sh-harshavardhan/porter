@@ -1,9 +1,16 @@
+"""Model definitions for data Validations."""
+
+__all__ = ["Validation"]
+
+
 from typing import Dict, Optional
 from pydantic import BaseModel, Field
 from src.enums.common import ExceptionType
 
 
 class Validation(BaseModel):
+    """Model representing a data validation rule."""
+
     name: str = Field(..., description="The name of the validation")
     sql_query: str = Field(deafult=None, description="The SQL query for the validation")
     values_to_bind: Optional[Dict] = Field(

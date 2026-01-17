@@ -1,3 +1,8 @@
+"""Model definitions for data sources which can be Targets."""
+
+__all__ = ["Target", "CustomWriteOptions"]
+
+
 from abc import ABC
 from typing import List, Optional, Dict, ClassVar, Any
 from pydantic import Field, BaseModel, model_validator
@@ -7,6 +12,8 @@ from src.enums.secrets import SecretSource
 
 
 class CustomWriteOptions(BaseModel):
+    """Model representing custom write options for a specific target and dataset."""
+
     target: str = Field(
         ...,
         description="The name of the target where the custom option is to be applied",
@@ -31,9 +38,7 @@ class CustomWriteOptions(BaseModel):
 
 
 class Target(BaseModel, ABC):
-    """
-    Model representing a data target, inheriting from Source.
-    """
+    """Model representing a data target, inheriting from Source."""
 
     name: str = Field(..., description="The name of the target")
     secrets: Optional[List[str]] = Field(
@@ -82,7 +87,8 @@ class Target(BaseModel, ABC):
     MANDATORY_ARGS: ClassVar[Any] = []
 
     @model_validator(mode="after")
-    def validate_mandatory_args(self):
+    def validate_args(self):
+        """Validate that all mandatory arguments are present."""
         if self.args is None:
             self.args = {}
         missing_args = [arg for arg in self.MANDATORY_ARGS if arg not in self.args]

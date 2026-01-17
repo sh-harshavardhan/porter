@@ -1,11 +1,14 @@
-from typing import Optional, Dict
+"""Dataset model for file-based datasets."""
 
-from src.models.dataset.base import Dataset, Field
+__all__ = ["FileDataset"]
+
+from typing import Optional, Dict
+from pydantic import Field
+from src.models.dataset.base import Dataset
 
 
 class FileDataset(Dataset):
-    """
-    Dataset model for file-based datasets.
+    """Dataset model for file-based datasets.
     Files in the path matching the prefix and suffix will be included in the dataset.
     Example: /path/to/data/prefix_*.csv
     """

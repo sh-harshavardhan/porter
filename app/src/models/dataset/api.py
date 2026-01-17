@@ -1,12 +1,14 @@
-from typing import Optional, Dict
+"""Dataset model for api-based datasets."""
 
-from src.models.dataset.base import Dataset, Field
+__all__ = ["ApiDataset"]
+
+from typing import Optional, Dict
+from pydantic import Field
+from src.models.dataset.base import Dataset
 
 
 class ApiDataset(Dataset):
-    """
-    Dataset model for api-based datasets.
-    """
+    """Dataset model for api-based datasets."""
 
     url: str = Field(
         None,

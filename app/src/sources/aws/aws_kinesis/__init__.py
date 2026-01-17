@@ -1,0 +1,1 @@
+"""AWS Kinesis source package."""

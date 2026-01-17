@@ -27,6 +27,7 @@ art = "^6.5"
 [tool.poetry.group.dev.dependencies]
 pytest-cov = "^7.0.0"
 tabulate = "^0.9.0"
+pre-commit = "^4.5.1"
 
 [tool.poetry.group.metadata.dependencies]
 alembic = "^1.17.2"

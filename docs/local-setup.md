@@ -3,7 +3,7 @@
 
 - Install CLI packages
 ```shell
-# Install BREW if you dont already have it. 
+# Install BREW if you dont already have it.
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Install required packages

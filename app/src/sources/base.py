@@ -55,4 +55,3 @@ class Source(ABC):
         Implement this method if you want to close the connection to the source after the job is done
         """
         pass
-

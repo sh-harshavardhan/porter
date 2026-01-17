@@ -10,26 +10,21 @@ class Source(BaseModel, ABC):
     All sources should accept this config, any additional parameters can be passed via the `args` field.
     """
 
-    name: str = Field(
-        ...,
-        description="The name of the source"
-    )
+    name: str = Field(..., description="The name of the source")
     secrets: Optional[List[str]] = Field(
         default=None,
-        description="List of secrets which contains the credentials for this Source"
+        description="List of secrets which contains the credentials for this Source",
     )
     secrets_source: Optional[str] = Field(
         default=None,
         description="The source from which the secrets are to fetched",
-        examples=[ss.name for ss in SecretSource]
+        examples=[ss.name for ss in SecretSource],
     )
     args: Any = Field(
-        default=None,
-        description="Additional arguments specific to the source type"
+        default=None, description="Additional arguments specific to the source type"
     )
     metadata: Optional[Dict] = Field(
-        default=None,
-        description="Optional metadata for the source"
+        default=None, description="Optional metadata for the source"
     )
 
     # List of mandatory args for each source type.
@@ -37,15 +32,19 @@ class Source(BaseModel, ABC):
     # and the validation is done at one place so that not every source have to implement these validations.
     MANDATORY_ARGS: ClassVar[Any] = []
 
-    @model_validator(mode='after')
+    @model_validator(mode="after")
     def validate_mandatory_args(self):
         if self.args is None:
             self.args = {}
         missing_args = [arg for arg in self.MANDATORY_ARGS if arg not in self.args]
         if missing_args:
-            raise ValueError(f"Missing mandatory args for source type '{self.source_type.name}': {missing_args}")
+            raise ValueError(
+                f"Missing mandatory args for source type '{self.source_type.name}': {missing_args}"
+            )
 
         if self.secrets and self.secrets_source is None:
-            raise ValueError("secrets_source must be provided when secrets are specified")
+            raise ValueError(
+                "secrets_source must be provided when secrets are specified"
+            )
 
         return self

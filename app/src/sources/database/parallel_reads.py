@@ -6,10 +6,13 @@ MAX_RETRIES = 3
 
 def log_process_details(arg, retry_cnt):
     import os
-    print(f"parent: {os.getppid()}, "
-          f"child process: {os.getpid()} "
-          f"Argument: {arg}, "
-          f"retry count: {retry_cnt}")
+
+    print(
+        f"parent: {os.getppid()}, "
+        f"child process: {os.getpid()} "
+        f"Argument: {arg}, "
+        f"retry count: {retry_cnt}"
+    )
 
     if arg == "fail":
         raise Exception("Simulated exception in child process")
@@ -22,7 +25,9 @@ def run_in_parallel(args_list, func):
     while args_to_run:
         processes = {}
         for arg in args_to_run:
-            p = multiprocessing.Process(target=func, kwargs={'arg': arg, 'retry_cnt': retry_state[arg]})
+            p = multiprocessing.Process(
+                target=func, kwargs={"arg": arg, "retry_cnt": retry_state[arg]}
+            )
             processes[arg] = p
             p.start()
         for arg, p in processes.items():
@@ -31,7 +36,9 @@ def run_in_parallel(args_list, func):
         failed_args = set()
         for arg, p in processes.items():
             if p.exitcode != 0:
-                log.error(f"Process {p.pid} for arg {arg} failed with exit code {p.exitcode}")
+                log.error(
+                    f"Process {p.pid} for arg {arg} failed with exit code {p.exitcode}"
+                )
                 retry_state[arg] += 1
                 print(retry_state)
                 if retry_state[arg] < MAX_RETRIES:

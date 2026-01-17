@@ -1,0 +1,36 @@
+---
+default_stages: [pre-commit, pre-push]
+default_language_version:
+    python: python3
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: f1dff44d3a9ae852957f34def96390f28719c232
+      hooks:
+          - id: no-commit-to-branch
+            args:
+                - --branch=main
+          - id: check-yaml
+          - id: check-json
+          - id: end-of-file-fixer
+          - id: trailing-whitespace
+            exclude: ^(docs.*|README\.md)$
+          - id: check-added-large-files
+
+    - repo: https://github.com/astral-sh/ruff-pre-commit
+      rev: v0.14.13
+      hooks:
+        - id: ruff
+          args:
+            - --fix
+          additional_dependencies: [toml]
+          files: ^app/.*\.py$
+
+        - id: ruff-format
+          additional_dependencies: [toml]
+          files: ^app/.*\.py$
+
+    - repo: https://github.com/adrienverge/yamllint
+      rev: v1.38.0
+      hooks:
+          - id: yamllint
+            args: [--config-file=.github/config/yamlint.yaml, --no-warnings]

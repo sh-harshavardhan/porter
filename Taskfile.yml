@@ -1,3 +1,4 @@
+---
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 
 version: '3'
@@ -30,11 +31,29 @@ tasks:
       - rm -r -f dist
     silent: true
 
-  publish-from-local:
+  publish.local:
     desc: Publish the application to PYPI
-    dotenv: [ '.env/pypi.env' ]
+    dotenv: ['.env/pypi.env']
     cmds:
       - echo "Pushing the changes to PYPI"
       - poetry publish --build --username $PYPI_USERNAME --password $PYPI_PASSWORD --skip-existing
       - rm -r -f dist
     silent: true
+
+  hooks.install:
+    desc: Install pre-commit hooks
+    cmds:
+      - echo "Installing pre-commit hooks"
+      - pre-commit install
+
+  hooks.run:
+    desc: Run pre-commit hooks
+    cmds:
+      - echo "Running pre-commit hooks"
+      - pre-commit run --all-files
+
+  hooks.update:
+    desc: Update pre-commit hooks
+    cmds:
+      - echo "Updating pre-commit hooks"
+      - pre-commit autoupdate --freeze

@@ -1,3 +1,4 @@
+---
 name: customers_postgres_to_s3
 description: Export customers table from Postgres to S3 in CSV format
 source:

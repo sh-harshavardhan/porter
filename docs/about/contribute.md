@@ -20,8 +20,9 @@ brew install go-task
 ### Version upgrades
 
 ```shell
-cz bump --increment PATH
-cz bump --increment PATH --prerelease rc
+cz bump --help
+cz bump --increment PATCH
+cz bump --increment PATCH --prerelease rc
 cz changelog --incremental --unreleased-version "v0.0.1"
 ```
 

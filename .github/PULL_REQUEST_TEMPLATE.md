@@ -1,6 +1,6 @@
 
 
-Thank you for your contribution to the Fabrikam Fiber repo.
+Thank you for your contribution to the [Porter](https://github.com/sh-harshavardhan/porter) repo.
 Before submitting this PR, please make sure:
 
 ## Test results

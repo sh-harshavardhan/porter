@@ -59,7 +59,7 @@ ignore_missing_imports = true
 version = "0.0.2rc0"
 version_files = ["pyproject.toml:^version"]
 tag_format = "v$version"
-changelog_file = "docs/changelog.md"
+changelog_file = "docs/about/changelog.md"
 
 
 [tool.pytest.ini_options]

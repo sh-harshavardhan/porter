@@ -6,10 +6,10 @@ __all__ = ["PorterConfig"]
 from typing import Dict, Optional, Union, List
 
 from pydantic import BaseModel, Field, field_validator
-from src.models.dataset import DATASET_TYPES
+from src.models.dataset import DATASET_TYPES, OnDatasetMissing
 from src.models.validation import Validation
 from src.models.transform import Transform
-from src.models.target import Target, CustomWriteOptions
+from src.models.target import Target
 from src.models.source import Source
 from src.enums.secrets import SecretSource
 
@@ -35,12 +35,17 @@ class PorterConfig(BaseModel):
         examples=[ss.name for ss in SecretSource],
     )
 
-    source: Union[Dict, Source] = Field(
+    connections: Union[Dict, Source] = Field(
         default=None,
-        description="The source details from which data is to be extracted",
+        description="List of all connection details which can be used across sources and targets",
     )
 
-    source_config_path: str = Field(
+    source: str = Field(
+        default=None,
+        description="The source name from which data is to be extracted",
+    )
+
+    connection_config_paths: str = Field(
         default=None,
         description="Source config path where the source is defined from which data is to be extracted. "
         "Use this if this source is used in multiple Porter jobs. ",
@@ -49,38 +54,21 @@ class PorterConfig(BaseModel):
     datasets: Union[DATASET_TYPES] = Field(
         ..., description="List of datasets to be extracted from source"
     )
+
+    on_dataset_missing: Optional[OnDatasetMissing] = Field(
+        None,
+        description="Action to take when the dataset is missing, this applies to all the datasets. "
+        "If the same is defined at dataset level, that will take precedence over this setting.",
+    )
+
     pre_validations: Optional[Validation] = Field(
         None, description="List of validations to be run before the transforms"
     )
     pre_transformations: Optional[Transform] = Field(
         None, description="List of transformations to be run before the main transforms"
     )
-    # Targets can be passed as list of dicts or list of Target objects.
-    # In case of YAML config these will be read as dict and validated against Target model.
     targets: Union[List[Dict], List[Target]] = Field(
         ..., description="List of targets where the data should be loaded"
-    )
-
-    custom_write_options: Optional[List[CustomWriteOptions]] = Field(
-        default=None,
-        description="List of custom options for the target load operation",
-        examples=[
-            [
-                {
-                    "target": "postgres",
-                    "dataset_name": "sales_data",
-                    "target_name": "sales_2023",
-                }
-            ],
-            [
-                {
-                    "target": "s3",
-                    "dataset_name": "customers",
-                    "target_name": "customers_current",
-                    "truncate_target": True,
-                }
-            ],
-        ],
     )
 
     post_validations: Optional[Validation] = Field(

@@ -4,9 +4,9 @@ __all__ = ["Source"]
 
 
 from abc import ABC
-from typing import Optional, Dict, Any, ClassVar, List
+from typing import Any, ClassVar
+
 from pydantic import BaseModel, Field, model_validator
-from src.enums.secrets import SecretSource
 
 
 class Source(BaseModel, ABC):
@@ -15,20 +15,9 @@ class Source(BaseModel, ABC):
     """
 
     name: str = Field(..., description="The name of the source")
-    secrets: Optional[List[str]] = Field(
-        default=None,
-        description="List of secrets which contains the credentials for this Source",
-    )
-    secrets_source: Optional[str] = Field(
-        default=None,
-        description="The source from which the secrets are to fetched",
-        examples=[ss.name for ss in SecretSource],
-    )
+
     args: Any = Field(
         default=None, description="Additional arguments specific to the source type"
-    )
-    metadata: Optional[Dict] = Field(
-        default=None, description="Optional metadata for the source"
     )
 
     # List of mandatory args for each source type.
@@ -46,10 +35,4 @@ class Source(BaseModel, ABC):
             raise ValueError(
                 f"Missing mandatory args for source type '{self.source_type.name}': {missing_args}"
             )
-
-        if self.secrets and self.secrets_source is None:
-            raise ValueError(
-                "secrets_source must be provided when secrets are specified"
-            )
-
         return self

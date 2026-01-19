@@ -17,6 +17,10 @@ class Validation(BaseModel):
         None,
         description="If the query has placeholders, this dictionary contains the values to bind to the placeholders",
     )
+    expectation: Optional[str] = Field(
+        default=None,
+        description="Python expression representing the expectation to be met by the validation result",
+    )
     exception: str = Field(
         ..., description="The exception message if the validation fails"
     )

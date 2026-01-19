@@ -1,23 +1,19 @@
 """Model definitions for data sources which can be Targets."""
 
-__all__ = ["Target", "CustomWriteOptions"]
+__all__ = ["Target"]
 
 
 from abc import ABC
 from typing import List, Optional, Dict, ClassVar, Any
+
 from pydantic import Field, BaseModel, model_validator
 
 from src.enums.targets import LoadMode
-from src.enums.secrets import SecretSource
 
 
 class CustomWriteOptions(BaseModel):
     """Model representing custom write options for a specific target and dataset."""
 
-    target: str = Field(
-        ...,
-        description="The name of the target where the custom option is to be applied",
-    )
     dataset_name: str = Field(
         ...,
         description="The name of the dataset for which the custom option is applied",
@@ -41,18 +37,7 @@ class Target(BaseModel, ABC):
     """Model representing a data target, inheriting from Source."""
 
     name: str = Field(..., description="The name of the target")
-    secrets: Optional[List[str]] = Field(
-        None,
-        description="List of secrets which contains the credentials for this Target",
-    )
-    secrets_source: Optional[str] = Field(
-        default=None,
-        description="The source from which the secrets are to fetched",
-        examples=[ss.name for ss in SecretSource],
-    )
-    args: Any = Field(
-        None, description="Additional arguments specific to the source type"
-    )
+
     metadata: Optional[Dict] = Field(
         None, description="Optional metadata for the source"
     )
@@ -81,6 +66,26 @@ class Target(BaseModel, ABC):
         description="Flag indicating whether to truncate existing data in the target before loading new data",
     )
 
+    custom_write_options: Optional[List[CustomWriteOptions]] = Field(
+        default=None,
+        description="List of custom options for the target load operation",
+        examples=[
+            [
+                {
+                    "dataset_name": "sales_data",
+                    "target_name": "sales_2023",
+                }
+            ],
+            [
+                {
+                    "dataset_name": "customers",
+                    "target_name": "customers_current",
+                    "truncate_target": True,
+                }
+            ],
+        ],
+    )
+
     # List of mandatory args for each source type.
     # Each Source should define this list based on their requirement,
     # and the validation is done at one place so that not every source have to implement these validations.
@@ -95,11 +100,6 @@ class Target(BaseModel, ABC):
         if missing_args:
             raise ValueError(
                 f"Missing mandatory args for source type '{self.source_type.name}': {missing_args}"
-            )
-
-        if self.secrets and self.secrets_source is None:
-            raise ValueError(
-                "secrets_source must be provided when secrets are specified"
             )
 
         return self

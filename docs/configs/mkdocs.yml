@@ -9,6 +9,7 @@ theme:
   highlights: true
 plugins:
   - search
+  - mermaid2
   - mkdocstrings:
       handlers:
         # See: https://mkdocstrings.github.io/python/usage/

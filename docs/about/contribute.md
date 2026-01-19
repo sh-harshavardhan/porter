@@ -11,6 +11,9 @@ brew install python3.13
 brew install commitizen
 brew install poetry
 brew install go-task
+
+# Optional
+brew install --cask claude-code
 ```
 
 - Install Docker desktop : https://www.docker.com/get-started/

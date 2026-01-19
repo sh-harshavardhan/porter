@@ -1,10 +1,11 @@
 """Base Dataset model for all datasets."""
 
-__all__ = ["Dataset", "Column"]
+__all__ = ["Dataset", "Column", "OnDatasetMissing"]
 
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Literal
 
 from pydantic import BaseModel, Field
+from src.enums.datasets import OnDatasetMissingActions
 
 
 class Column(BaseModel):
@@ -18,6 +19,33 @@ class Column(BaseModel):
     datatype: Optional[str] = Field(None, description="The datatype of the column")
     precision: Optional[int] = Field(None, description="The precision of the column")
     scale: Optional[int] = Field(None, description="The scale of the column")
+
+
+class OnDatasetMissing(BaseModel):
+    """Model representing actions to take when a dataset is missing."""
+
+    action: OnDatasetMissingActions = Field(
+        OnDatasetMissingActions.error,
+        description="Action to take when the dataset is missing.",
+        examples=[act.name for act in OnDatasetMissingActions],
+    )
+    poll_interval: Optional[int] = Field(
+        60,
+        description="Interval in seconds to poll for the dataset if action is to wait.",
+        examples=[60, 120],
+    )
+    poll_count: Optional[int] = Field(
+        10,
+        description="Number of times to poll for the dataset if action is to wait.",
+        examples=[5, 10],
+    )
+    post_poll_dataset_missing_action: Literal[
+        OnDatasetMissingActions.error, OnDatasetMissingActions.warning
+    ] = Field(
+        OnDatasetMissingActions.error,
+        description="Action to take if the dataset is still missing after polling.",
+        examples=["error", "warning"],
+    )
 
 
 class Dataset(BaseModel):
@@ -44,6 +72,12 @@ class Dataset(BaseModel):
             {"name": "salary", "datatype": "DECIMAL(20,2)"},
         ],
     )
+
+    on_dataset_missing: Optional[OnDatasetMissing] = Field(
+        None,
+        description="Action to take when the dataset is missing.",
+    )
+
     metadata: Dict = Field(
         default_factory=lambda data: {"name": data.get("name")},
         description="Metadata for the dataset. By default includes the name of the dataset you dont have to pass it",

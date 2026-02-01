@@ -92,4 +92,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ needs.publish.outputs.version }}
         run: |
-          gh release create ${{ VERSION }} dist/* --title ${{ VERSION }} --generate-notes
+          gh release create ${{ env.VERSION }} dist/* --title ${{ env.VERSION }} --generate-notes

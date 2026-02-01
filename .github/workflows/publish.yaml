@@ -82,6 +82,9 @@ jobs:
   github_release:
     runs-on: ubuntu-latest
     needs: [publish]
+    permissions:
+      actions: read
+      contents: read
     steps:
       - name: Download Artifacts
         uses: actions/download-artifacts@v6

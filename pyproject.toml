@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "porter-py"
-version = "0.0.2rc0"
+version = "0.0.2rc1"
 description = ""
 homepage = "https://github.com/sh-harshavardhan/porter.git"
 documentation = "https://porter-py.readthedocs.io/en/latest/"
@@ -57,7 +57,7 @@ python_version = "3.13"
 ignore_missing_imports = true
 
 [tool.commitizen]
-version = "0.0.2rc0"
+version = "0.0.2rc1"
 version_files = ["pyproject.toml:^version"]
 tag_format = "v$version"
 changelog_file = "docs/about/changelog.md"

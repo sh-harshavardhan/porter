@@ -5,7 +5,7 @@ __all__ = ["FileTypes", "OnDatasetMissingActions"]
 from enum import Enum
 
 
-class FileTypes(Enum):
+class FileTypes(str, Enum):
     """Supported file types for datasets."""
 
     csv = "csv"
@@ -19,7 +19,7 @@ class FileTypes(Enum):
     custom = "custom"
 
 
-class OnDatasetMissingActions(Enum):
+class OnDatasetMissingActions(str, Enum):
     """Supported actions when a dataset is missing."""
 
     error = "error"

@@ -1,6 +1,6 @@
 """Model definitions for data Validations."""
 
-__all__ = ["Validation"]
+__all__ = ["ValidationConfig"]
 
 
 from typing import Dict, Optional
@@ -8,7 +8,7 @@ from pydantic import BaseModel, Field
 from src.enums.common import ExceptionType
 
 
-class Validation(BaseModel):
+class ValidationConfig(BaseModel):
     """Model representing a data validation rule."""
 
     name: str = Field(..., description="The name of the validation")

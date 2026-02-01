@@ -2,10 +2,10 @@
 
 __all__ = ["FileDataset"]
 
-from typing import Optional, Dict
+from typing import Optional
 from pydantic import Field
 from src.models.dataset.base import Dataset
-from src.enums.datasets import FileTypes
+from src.enums import datasets, common
 
 
 class FileDataset(Dataset):
@@ -15,14 +15,22 @@ class FileDataset(Dataset):
     """
 
     file_path: str = Field(..., description="The file path of the dataset.")
-    file_type: FileTypes = Field(
+    file_type: datasets.FileTypes = Field(
         ...,
         description="Type of the file.",
-        examples=[f.name for f in FileTypes],
+        examples=[f.name for f in datasets.FileTypes],
+    )
+    engine: common.Engine = Field(
+        common.Engine.pandas,
+        description="Which Engine to use to read the file, By default PANDAS is used",
+        examples=[e.name for e in common.Engine],
     )
     file_pattern: Optional[str] = Field(
-        None,
-        description="The file pattern, Uses glob patterning.",
+        default="*",
+        description="""The file pattern, Uses glob patterning.
+                    By default all the files under `file_path` will be processed.
+                    Also if either `file_prefix` or `file_suffix` they take precedence.
+                    """,
         examples=["DB_FILE_*.csv", "sales_data_*.json", "EMP_REC_*_PART_*_.parquet"],
     )
     file_prefix: Optional[str] = Field(
@@ -40,4 +48,3 @@ class FileDataset(Dataset):
         False,
         description="Indicates if the dataset is partitioned with subdirectories.",
     )
-    args: Optional[Dict] = None

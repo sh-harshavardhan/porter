@@ -6,7 +6,7 @@ __all__ = ["SecretSource"]
 from enum import Enum
 
 
-class SecretSource(Enum):
+class SecretSource(str, Enum):
     """Supported secret management services."""
 
     aws_sm = "aws_sm"

@@ -2,10 +2,12 @@
 
 __all__ = ["Dataset", "Column", "OnDatasetMissing"]
 
-from typing import Optional, List, Dict, Literal
+from typing import Optional, List, Dict, Literal, ClassVar, Type
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from src.enums.datasets import OnDatasetMissingActions
+from src.common import exceptions as exc
+from src.models.common import DummyModel
 
 
 class Column(BaseModel):
@@ -25,24 +27,24 @@ class OnDatasetMissing(BaseModel):
     """Model representing actions to take when a dataset is missing."""
 
     action: OnDatasetMissingActions = Field(
-        OnDatasetMissingActions.error,
+        default=OnDatasetMissingActions.error.value,
         description="Action to take when the dataset is missing.",
         examples=[act.name for act in OnDatasetMissingActions],
     )
-    poll_interval: Optional[int] = Field(
-        60,
+    poll_interval: int = Field(
+        default=60,
         description="Interval in seconds to poll for the dataset if action is to wait.",
         examples=[60, 120],
     )
-    poll_count: Optional[int] = Field(
-        10,
+    poll_count: int = Field(
+        deafult=10,
         description="Number of times to poll for the dataset if action is to wait.",
         examples=[5, 10],
     )
     post_poll_dataset_missing_action: Literal[
         OnDatasetMissingActions.error, OnDatasetMissingActions.warning
     ] = Field(
-        OnDatasetMissingActions.error,
+        default=OnDatasetMissingActions.error,
         description="Action to take if the dataset is still missing after polling.",
         examples=["error", "warning"],
     )
@@ -73,13 +75,38 @@ class Dataset(BaseModel):
         ],
     )
 
-    on_dataset_missing: Optional[OnDatasetMissing] = Field(
-        None,
+    on_dataset_missing: OnDatasetMissing = Field(
+        default_factory=OnDatasetMissing,
         description="Action to take when the dataset is missing.",
     )
 
-    metadata: Dict = Field(
+    metadata: Dict[str, str] = Field(
         default_factory=lambda data: {"name": data.get("name")},
         description="Metadata for the dataset. By default includes the name of the dataset you dont have to pass it",
         examples=[{"project": "sales_analysis", "owner": "John Doe"}],
     )
+
+    args: Dict = Field(
+        default_factory=dict,
+        description="Additional arguments for fetching the dataset. These are source specific arguments. "
+        "Read th documentation for each source to know the list of arguments that it accepts",
+    )
+
+    # Source/ target can set this args_model so that each source/target can validate the list of args users can set
+    # By default no args are expected for all the sources/targets
+    args_model: ClassVar[Type[BaseModel]] = DummyModel
+
+    @model_validator(mode="after")
+    def validate_args(self):
+        """Validate that all mandatory args are present in the args dictionary."""
+        if self.args is None:
+            self.args = {}
+
+        if not hasattr(self, "args_model"):
+            raise exc.PorterException(
+                "Your Source Did not implement the args_model, "
+                "its not your problem but rather issue in the Source implementation"
+            )
+
+        self.args = self.args_model.model_validate(self.args)
+        return self

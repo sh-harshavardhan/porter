@@ -5,22 +5,23 @@ __all__ = ["Engine", "Mode", "ExceptionType", "Status"]
 from enum import Enum
 
 
-class Engine(Enum):
+class Engine(str, Enum):
     """Supported data processing engines."""
 
     duckdb = "duckdb"
     spark = "spark"
     pandas = "pandas"
+    pyarrow = "pyarrow"
 
 
-class Mode(Enum):
+class Mode(str, Enum):
     """Execution modes for the application."""
 
     local = "local"
     kubernetes = "kubernetes"
 
 
-class ExceptionType(Enum):
+class ExceptionType(str, Enum):
     """Severity levels for exceptions during validations."""
 
     ignore = "ignore"
@@ -28,7 +29,7 @@ class ExceptionType(Enum):
     error = "error"
 
 
-class Status(Enum):
+class Status(str, Enum):
     """Status of operations or tasks."""
 
     success = "success"

@@ -51,11 +51,6 @@ class TableDataset(Dataset):
         description="If the query has placeholders, this dictionary contains the values to bind to the placeholders",
         examples=[{"department": "Engineering"}, {"region": "North America"}],
     )
-    args: Optional[Dict] = Field(
-        None,
-        description="Additional arguments for fetching the dataset. These are source specific arguments. "
-        "Read th documentation for each source to know the list of arguments that it accepts",
-    )
 
     dynamic_input_queries: Optional[List[DynamicInputQuery]] = Field(
         None,

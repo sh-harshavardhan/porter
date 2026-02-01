@@ -5,6 +5,7 @@ Also lets each source define if it can be used as a source or target or both.
 __all__ = ["Source"]
 
 from abc import ABC, abstractmethod
+from src.models.source import SourceConfig
 
 
 class Source(ABC):
@@ -12,23 +13,30 @@ class Source(ABC):
     This class also allows each source to define if it can be a source or a target or both.
     """
 
-    # if a source and be both source and target then set both to True
+    def __init__(self, config: SourceConfig):
+        """Expect to pass source config to all sources"""
+        self.config = config
 
-    is_source: bool  # Indicate True if the source can be used as a source
-    is_target: bool  # Indicate True if the source can be used as a target
-
-    parallel_reads: bool = False  # Indicate if the source supports parallel read
-
+    @property
     @abstractmethod
+    def is_source(self):
+        """Indicate True if the source can be used as a Source, by default is False"""
+        ...
+
+    @property
+    @abstractmethod
+    def is_target(self):
+        """Indicate True if the source can be used as a Target, by default is False"""
+        ...
+
     def read(self, **kwargs):
         """Method to read data from the source"""
-        if self.is_source:
+        if self.is_source():
             raise NotImplementedError("Read method not implemented for this source")
 
-    @abstractmethod
     def write(self, **kwargs):
         """Method to write data to the target"""
-        if self.is_target:
+        if self.is_target():
             raise NotImplementedError("Write method not implemented for this source")
 
     def execute(self, **kwargs):

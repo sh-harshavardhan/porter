@@ -2,7 +2,7 @@
 
 __all__ = ["StreamDataset"]
 
-from typing import Optional, Dict
+from typing import Optional
 from pydantic import Field
 from src.models.dataset.base import Dataset
 
@@ -21,4 +21,3 @@ class StreamDataset(Dataset):
         False,
         description="Indicates if the dataset is partitioned with subdirectories.",
     )
-    args: Optional[Dict] = None

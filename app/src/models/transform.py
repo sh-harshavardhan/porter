@@ -1,13 +1,13 @@
 """Model definitions for data Transformations."""
 
-__all__ = ["Transform"]
+__all__ = ["TransformConfig"]
 
 
 from typing import Optional, Dict
 from pydantic import BaseModel, Field
 
 
-class Transform(BaseModel):
+class TransformConfig(BaseModel):
     """Model representing a data transformation rule."""
 
     name: str = Field(..., description="The name of the transform")

@@ -1,12 +1,25 @@
 ---
-name: customers_postgres_to_s3
-description: Export customers table from Postgres to S3 in CSV format
+name: sample_pipeline
+description: 'A Sample pipeline config'
 source:
-  type: postgres
-  config:
-    host: your_postgres_host
-    port: 5432
-    database: your_database
-    user: your_username
-    password: your_password
-    query: SELECT * FROM customers
+    name: sample_source
+
+secrets_backend_config: '/Users/stallapalli/PycharmProjects/porter/example/sample_aws_sm_secrets_backend_config.yaml'
+datasets:
+    - name: dataset1
+      file_path: '/sample/tmp/path/'
+      file_type: 'csv'
+      engine: 'duckdb'
+      args:
+          has_header: true
+      on_dataset_missing:
+          action: poll
+          poll_interval: 60
+          poll_count: 10
+          post_poll_dataset_missing_action: error
+
+targets:
+  - name: sample_target
+metadata:
+    env: dev
+    repo: https://github.com/myproject

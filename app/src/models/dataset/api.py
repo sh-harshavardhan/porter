@@ -2,7 +2,7 @@
 
 __all__ = ["ApiDataset"]
 
-from typing import Optional, Dict
+from typing import Optional
 from pydantic import Field
 from src.models.dataset.base import Dataset
 
@@ -17,4 +17,3 @@ class ApiDataset(Dataset):
     auth_url: Optional[str] = Field(
         None, description="Authentication URL to get access token if required"
     )
-    args: Optional[Dict] = None

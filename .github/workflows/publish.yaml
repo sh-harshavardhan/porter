@@ -13,6 +13,8 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,7 +25,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: '3.13' # Specify your Python version
+          python-version: '3.13'    # Specify your Python version
 
       - name: Load poetry installation cache
         id: cache-poetry-dependencies
@@ -33,14 +35,60 @@ jobs:
           key: porter_venv_${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Poetry
-        uses: snok/install-poetry@v1
+        uses: snok/install-poetry@v1.4.1
         with:
           virtualenvs-create: true
-          virtualenvs-in-project: true # Creates .venv inside project for easier caching
+          virtualenvs-in-project: true    # Creates .venv inside project for easier caching
 
-      - name: Build Poetry application
+      - name: Current version
+        id: version
+        run: echo "version=$(poetry version -s)" >> "$GITHUB_OUTPUT"
+
+      - name: PYPI API token
+        id: pypi-token
+        run: |
+          # retrieve the ambient OIDC token
+          resp=$(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=pypi")
+          oidc_token=$(jq -r '.value' <<< "${resp}")
+
+          # exchange the OIDC token for an API token
+          resp=$(curl -X POST https://pypi.org/_/oidc/mint-token -d "{\"token\": \"${oidc_token}\"}")
+          api_token=$(jq -r '.token' <<< "${resp}")
+
+          # mask the newly minted API token, so that we don't accidentally leak it
+          echo "::add-mask::${api_token}"
+
+          # see the next step in the workflow for an example of using this step output
+          echo "api-token=${api_token}" >> "${GITHUB_OUTPUT}"
+
+      - name: Publish Porter application to PYPI
         run: |
           task publish
         env:
-          PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+          PYPI_USERNAME: __token__
+          PYPI_PASSWORD: ${{ steps.pypi-token.outputs.api-token }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist/
+
+  github_release:
+    runs-on: ubuntu-latest
+    needs: [publish]
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifacts@v3
+        with:
+          name: dist
+          path: dist/
+
+      - name: Create Github Release
+        id: create_gh_release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.publish.outputs.version }}
+        run: |
+          gh release create ${{ env.VERSION }} dist/* --title ${{ env.VERSION }} --generate-notes

@@ -84,7 +84,7 @@ jobs:
     needs: [publish]
     steps:
       - name: Download Artifacts
-        uses: actions/download-artifacts@v7
+        uses: actions/download-artifacts@v6
         with:
           name: dist
           path: dist/

@@ -84,8 +84,13 @@ jobs:
     needs: [publish]
     permissions:
       actions: read
-      contents: read
+      contents: write
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Download Artifacts
         uses: actions/download-artifact@v6
         with:

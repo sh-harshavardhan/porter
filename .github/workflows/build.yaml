@@ -25,7 +25,7 @@ jobs:
           python-version: '3.13'    # Specify your Python version
 
       - name: Load poetry installation cache
-        id: cache-poetry-dependencies
+        id: cached-poetry-dependencies
         uses: actions/cache@v5
         with:
           path: .porter_venv
@@ -36,6 +36,10 @@ jobs:
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true    # Creates .venv inside project for easier caching
+
+      - name: Install dependencies
+        run: poetry install
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
 
       - name: Build Poetry application
         run: |
